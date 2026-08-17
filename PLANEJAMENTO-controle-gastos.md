@@ -73,8 +73,8 @@ Criar a primeira versão funcional do controle de gastos.
 
 ## Funcionalidades
 
-- [ ] Criar a estrutura inicial do projeto com Vite
-- [ ] Criar componente principal
+- [x] Criar a estrutura inicial do projeto com Vite
+- [x] Criar componente principal
 - [ ] Criar formulário para cadastrar um lançamento (descrição + valor)
 - [ ] Exibir lançamentos cadastrados
 - [ ] Excluir lançamento
