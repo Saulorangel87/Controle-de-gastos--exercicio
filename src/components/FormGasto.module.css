@@ -1,0 +1,33 @@
+.FormGasto {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 24px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.formulario {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.botaoExcluir {
+  border: none;
+  background: transparent;
+  color: #c0392b;
+  cursor: pointer;
+  font-size: 14px;
+}
