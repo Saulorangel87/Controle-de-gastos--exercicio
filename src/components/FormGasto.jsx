@@ -9,6 +9,7 @@ export default function FormGasto() {
   const [tipo, setTipo] = useState("Entrada");
   const [pesquisa, setPesquisa] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("Todos");
+  const [ordenarPor, setOrdenarPor] = useState("Data");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,6 +67,13 @@ export default function FormGasto() {
         <option value="Entrada">Entrada</option>
         <option value="Saída">Saída</option>
       </select>
+      <select
+        onChange={(e) => setOrdenarPor(e.target.value)}
+        value={ordenarPor}
+      >
+        <option value="Data">Data</option>
+        <option value="Valor">Valor</option>
+      </select>
       <input
         type="text"
         placeholder="Pesquisar"
@@ -74,9 +82,18 @@ export default function FormGasto() {
       />
       <ul className={styles.lista}>
         {gastos
-          .filter((gasto) =>
-            gasto.descricao.toLowerCase().includes(pesquisa.toLowerCase()) && (filtroTipo === "Todos" || filtroTipo === gasto.tipo)
+          .filter(
+            (gasto) =>
+              gasto.descricao.toLowerCase().includes(pesquisa.toLowerCase()) &&
+              (filtroTipo === "Todos" || filtroTipo === gasto.tipo),
           )
+          .sort((a, b) => {
+            if (ordenarPor === "Data") {
+              return b.id - a.id;
+            } else if (ordenarPor === "Valor") {
+              return Number(b.valor) - Number(a.valor);
+            }
+          })
           .map((gasto) => (
             <li key={gasto.id} className={styles.item}>
               <span
