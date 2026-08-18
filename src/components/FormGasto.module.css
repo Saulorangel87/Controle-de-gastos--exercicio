@@ -31,3 +31,11 @@
   cursor: pointer;
   font-size: 14px;
 }
+
+.entrada {
+  color: #27ae60;
+}
+
+.saida {
+  color: #c0392b;
+}

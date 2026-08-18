@@ -6,13 +6,15 @@ export default function FormGasto() {
   const [valor, setValor] = useState(0);
   const [descricao, setDescricao] = useState("");
   const descricaoRef = useRef(null);
+  const [tipo, setTipo] = useState("Entrada");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (descricao === "" || valor === 0) return;
-    setGastos([...gastos, { descricao, valor, id: Date.now() }]);
+    setGastos([...gastos, { descricao, valor, tipo, id: Date.now() }]);
     setDescricao("");
     setValor(0);
+    setTipo("Entrada");
     descricaoRef.current.focus();
   };
 
@@ -36,13 +38,40 @@ export default function FormGasto() {
           onChange={(e) => setValor(e.target.value)}
           value={valor}
         />
+        <label htmlFor="Entrada">Entrada</label>
+        <input
+          type="radio"
+          name="tipo"
+          value="Entrada"
+          onChange={(e) => setTipo(e.target.value)}
+          checked={tipo === "Entrada"}
+        />
+        <label htmlFor="Saída">Saída</label>
+        <input
+          type="radio"
+          name="tipo"
+          value="Saída"
+          onChange={(e) => setTipo(e.target.value)}
+          checked={tipo === "Saída"}
+        />
         <button type="submit">+ Adicionar</button>
       </form>
       <ul className={styles.lista}>
         {gastos.map((gasto) => (
           <li key={gasto.id} className={styles.item}>
-            {gasto.descricao} - {gasto.valor}
-            <button className={styles.botaoExcluir} onClick={() => excluirGasto(gasto.id)}>x</button>
+            <span
+              className={
+                gasto.tipo === "Entrada" ? styles.entrada : styles.saida
+              }
+            >
+              {gasto.descricao} - {gasto.valor}
+            </span>
+            <button
+              className={styles.botaoExcluir}
+              onClick={() => excluirGasto(gasto.id)}
+            >
+              x
+            </button>
           </li>
         ))}
       </ul>
