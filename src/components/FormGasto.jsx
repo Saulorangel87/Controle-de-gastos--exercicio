@@ -25,6 +25,13 @@ export default function FormGasto() {
     setGastos(gastos.filter((gasto) => gasto.id !== id));
   };
 
+  const saldo = gastos.reduce((acumulado, gasto) => {
+    return (
+      acumulado +
+      (gasto.tipo === "Entrada" ? Number(gasto.valor) : -Number(gasto.valor))
+    );
+  }, 0);
+
   return (
     <div className={styles.FormGasto}>
       <form onSubmit={handleSubmit} className={styles.formulario}>
@@ -80,6 +87,8 @@ export default function FormGasto() {
         onChange={(e) => setPesquisa(e.target.value)}
         value={pesquisa}
       />
+        <p>Total: {gastos.length}</p>
+        <p>Saldo: {saldo}</p>
       <ul className={styles.lista}>
         {gastos
           .filter(
