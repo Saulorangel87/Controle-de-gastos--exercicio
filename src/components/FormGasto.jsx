@@ -7,6 +7,8 @@ export default function FormGasto() {
   const [descricao, setDescricao] = useState("");
   const descricaoRef = useRef(null);
   const [tipo, setTipo] = useState("Entrada");
+  const [pesquisa, setPesquisa] = useState("");
+  const [filtroTipo, setFiltroTipo] = useState("Todos");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,24 +58,42 @@ export default function FormGasto() {
         />
         <button type="submit">+ Adicionar</button>
       </form>
+      <select
+        onChange={(e) => setFiltroTipo(e.target.value)}
+        value={filtroTipo}
+      >
+        <option value="Todos">Todos</option>
+        <option value="Entrada">Entrada</option>
+        <option value="Saída">Saída</option>
+      </select>
+      <input
+        type="text"
+        placeholder="Pesquisar"
+        onChange={(e) => setPesquisa(e.target.value)}
+        value={pesquisa}
+      />
       <ul className={styles.lista}>
-        {gastos.map((gasto) => (
-          <li key={gasto.id} className={styles.item}>
-            <span
-              className={
-                gasto.tipo === "Entrada" ? styles.entrada : styles.saida
-              }
-            >
-              {gasto.descricao} - {gasto.valor}
-            </span>
-            <button
-              className={styles.botaoExcluir}
-              onClick={() => excluirGasto(gasto.id)}
-            >
-              x
-            </button>
-          </li>
-        ))}
+        {gastos
+          .filter((gasto) =>
+            gasto.descricao.toLowerCase().includes(pesquisa.toLowerCase()) && (filtroTipo === "Todos" || filtroTipo === gasto.tipo)
+          )
+          .map((gasto) => (
+            <li key={gasto.id} className={styles.item}>
+              <span
+                className={
+                  gasto.tipo === "Entrada" ? styles.entrada : styles.saida
+                }
+              >
+                {gasto.descricao} - {gasto.valor}
+              </span>
+              <button
+                className={styles.botaoExcluir}
+                onClick={() => excluirGasto(gasto.id)}
+              >
+                x
+              </button>
+            </li>
+          ))}
       </ul>
     </div>
   );
