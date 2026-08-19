@@ -1,8 +1,14 @@
 import styles from "./FormGasto.module.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+const CHAVE_STORAGE = "gastos";
 
 export default function FormGasto() {
-  const [gastos, setGastos] = useState([]);
+  const [gastos, setGastos] = useState(() => {
+    const dadosSalvo = JSON.parse(localStorage.getItem(CHAVE_STORAGE)) || [];
+    return dadosSalvo;
+  });
+
   const [valor, setValor] = useState(0);
   const [descricao, setDescricao] = useState("");
   const descricaoRef = useRef(null);
@@ -52,6 +58,10 @@ export default function FormGasto() {
       (gasto.tipo === "Entrada" ? Number(gasto.valor) : -Number(gasto.valor))
     );
   }, 0);
+
+  useEffect(() => {
+    localStorage.setItem(CHAVE_STORAGE, JSON.stringify(gastos));
+  }, [gastos]);
 
   return (
     <div className={styles.FormGasto}>
