@@ -10,14 +10,26 @@ export default function FormGasto() {
   const [pesquisa, setPesquisa] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("Todos");
   const [ordenarPor, setOrdenarPor] = useState("Data");
+  const [categoria, setCategoria] = useState("Alimentação");
+  const [filtroCategoria, setFiltroCategoria] = useState("Todos");
+  const totalPorCategoria = gastos.reduce((acumulado, gasto) => {
+    if (gasto.tipo === "Entrada") return acumulado;
+    acumulado[gasto.categoria] =
+      (acumulado[gasto.categoria] || 0) + Number(gasto.valor);
+    return acumulado;
+  }, {});
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (descricao === "" || valor === 0) return;
-    setGastos([...gastos, { descricao, valor, tipo, id: Date.now() }]);
+    setGastos([
+      ...gastos,
+      { descricao, valor, tipo, categoria, id: Date.now() },
+    ]);
     setDescricao("");
     setValor(0);
     setTipo("Entrada");
+    setCategoria("Alimentação");
     descricaoRef.current.focus();
   };
 
@@ -64,6 +76,15 @@ export default function FormGasto() {
           onChange={(e) => setTipo(e.target.value)}
           checked={tipo === "Saída"}
         />
+        <select
+          onChange={(e) => setCategoria(e.target.value)}
+          value={categoria}
+        >
+          <option value="Alimentação">Alimentação</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Salário">Salário</option>
+        </select>
         <button type="submit">+ Adicionar</button>
       </form>
       <select
@@ -73,6 +94,16 @@ export default function FormGasto() {
         <option value="Todos">Todos</option>
         <option value="Entrada">Entrada</option>
         <option value="Saída">Saída</option>
+      </select>
+      <select
+        onChange={(e) => setFiltroCategoria(e.target.value)}
+        value={filtroCategoria}
+      >
+        <option value="Todos">Todos</option>
+        <option value="Alimentação">Alimentação</option>
+        <option value="Transporte">Transporte</option>
+        <option value="Lazer">Lazer</option>
+        <option value="Salário">Salário</option>
       </select>
       <select
         onChange={(e) => setOrdenarPor(e.target.value)}
@@ -87,14 +118,21 @@ export default function FormGasto() {
         onChange={(e) => setPesquisa(e.target.value)}
         value={pesquisa}
       />
-        <p>Total: {gastos.length}</p>
-        <p>Saldo: {saldo}</p>
+      <p>Total: {gastos.length}</p>
+      <p>Saldo: {saldo}</p>
+      {Object.keys(totalPorCategoria).map((cat) => (
+        <p key={cat}>
+          {cat}: {totalPorCategoria[cat]}
+        </p>
+      ))}
       <ul className={styles.lista}>
         {gastos
           .filter(
             (gasto) =>
               gasto.descricao.toLowerCase().includes(pesquisa.toLowerCase()) &&
-              (filtroTipo === "Todos" || filtroTipo === gasto.tipo),
+              (filtroTipo === "Todos" || filtroTipo === gasto.tipo) &&
+              (filtroCategoria === "Todos" ||
+                filtroCategoria === gasto.categoria),
           )
           .sort((a, b) => {
             if (ordenarPor === "Data") {
@@ -110,7 +148,7 @@ export default function FormGasto() {
                   gasto.tipo === "Entrada" ? styles.entrada : styles.saida
                 }
               >
-                {gasto.descricao} - {gasto.valor}
+                {gasto.descricao} - {gasto.valor} ({gasto.categoria})
               </span>
               <button
                 className={styles.botaoExcluir}
