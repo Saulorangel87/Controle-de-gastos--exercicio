@@ -18,6 +18,15 @@ export default function FormGasto() {
       (acumulado[gasto.categoria] || 0) + Number(gasto.valor);
     return acumulado;
   }, {});
+  const categoriaMaiorGasto = Object.keys(totalPorCategoria).reduce(
+    (maior, categoria) => {
+      if (totalPorCategoria[maior] < totalPorCategoria[categoria]) {
+        return categoria;
+      }
+      return maior;
+    },
+    Object.keys(totalPorCategoria)[0],
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -125,6 +134,8 @@ export default function FormGasto() {
           {cat}: {totalPorCategoria[cat]}
         </p>
       ))}
+      {categoriaMaiorGasto && <p>Maior gasto: {categoriaMaiorGasto}</p>}
+
       <ul className={styles.lista}>
         {gastos
           .filter(
