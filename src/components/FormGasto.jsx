@@ -48,6 +48,13 @@ export default function FormGasto() {
     descricaoRef.current.focus();
   };
 
+  function limparDados() {
+    if (window.confirm("Tem certeza que deseja limpar os dados?")) {
+      setGastos([]);
+      localStorage.removeItem(CHAVE_STORAGE);
+    }
+  }
+
   const excluirGasto = (id) => {
     setGastos(gastos.filter((gasto) => gasto.id !== id));
   };
@@ -137,6 +144,7 @@ export default function FormGasto() {
         onChange={(e) => setPesquisa(e.target.value)}
         value={pesquisa}
       />
+      <button onClick={limparDados}>Limpar dados</button>
       <p>Total: {gastos.length}</p>
       <p>Saldo: {saldo}</p>
       {Object.keys(totalPorCategoria).map((cat) => (
