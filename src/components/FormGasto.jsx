@@ -33,6 +33,20 @@ export default function FormGasto() {
     },
     Object.keys(totalPorCategoria)[0],
   );
+  const gastosFiltrados = gastos
+    .filter(
+      (gasto) =>
+        gasto.descricao.toLowerCase().includes(pesquisa.toLowerCase()) &&
+        (filtroTipo === "Todos" || filtroTipo === gasto.tipo) &&
+        (filtroCategoria === "Todos" || filtroCategoria === gasto.categoria),
+    )
+    .sort((a, b) => {
+      if (ordenarPor === "Data") {
+        return b.id - a.id;
+      } else if (ordenarPor === "Valor") {
+        return Number(b.valor) - Number(a.valor);
+      }
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +70,9 @@ export default function FormGasto() {
   }
 
   const excluirGasto = (id) => {
-    setGastos(gastos.filter((gasto) => gasto.id !== id));
+    if (window.confirm("Tem certeza que deseja excluir?")) {
+      setGastos(gastos.filter((gasto) => gasto.id !== id));
+    }
   };
 
   const saldo = gastos.reduce((acumulado, gasto) => {
@@ -110,6 +126,7 @@ export default function FormGasto() {
           <option value="Transporte">Transporte</option>
           <option value="Lazer">Lazer</option>
           <option value="Salário">Salário</option>
+          <option value="Outros">Outros</option>
         </select>
         <button type="submit">+ Adicionar</button>
       </form>
@@ -130,6 +147,7 @@ export default function FormGasto() {
         <option value="Transporte">Transporte</option>
         <option value="Lazer">Lazer</option>
         <option value="Salário">Salário</option>
+        <option value="Outros">Outros</option>
       </select>
       <select
         onChange={(e) => setOrdenarPor(e.target.value)}
@@ -155,22 +173,10 @@ export default function FormGasto() {
       {categoriaMaiorGasto && <p>Maior gasto: {categoriaMaiorGasto}</p>}
 
       <ul className={styles.lista}>
-        {gastos
-          .filter(
-            (gasto) =>
-              gasto.descricao.toLowerCase().includes(pesquisa.toLowerCase()) &&
-              (filtroTipo === "Todos" || filtroTipo === gasto.tipo) &&
-              (filtroCategoria === "Todos" ||
-                filtroCategoria === gasto.categoria),
-          )
-          .sort((a, b) => {
-            if (ordenarPor === "Data") {
-              return b.id - a.id;
-            } else if (ordenarPor === "Valor") {
-              return Number(b.valor) - Number(a.valor);
-            }
-          })
-          .map((gasto) => (
+        {gastosFiltrados.length === 0 ? (
+          <p>Nenhum lançamento ainda.</p>
+        ) : (
+          gastosFiltrados.map((gasto) => (
             <li key={gasto.id} className={styles.item}>
               <span
                 className={
@@ -186,7 +192,8 @@ export default function FormGasto() {
                 x
               </button>
             </li>
-          ))}
+          ))
+        )}
       </ul>
     </div>
   );
