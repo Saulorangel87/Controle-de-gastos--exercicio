@@ -18,6 +18,7 @@ export default function FormGasto() {
   const [ordenarPor, setOrdenarPor] = useState("Data");
   const [categoria, setCategoria] = useState("Alimentação");
   const [filtroCategoria, setFiltroCategoria] = useState("Todos");
+  const [erro, setErro] = useState("");
   const totalPorCategoria = gastos.reduce((acumulado, gasto) => {
     if (gasto.tipo === "Entrada") return acumulado;
     acumulado[gasto.categoria] =
@@ -50,7 +51,11 @@ export default function FormGasto() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (descricao === "" || valor === 0) return;
+    if (descricao === "" || valor === 0) {
+      setErro("Preencha a descrição e o valor!");
+      return;
+    }
+    setErro("");
     setGastos([
       ...gastos,
       { descricao, valor, tipo, categoria, id: Date.now() },
@@ -92,14 +97,20 @@ export default function FormGasto() {
         <input
           type="text"
           placeholder="Descrição"
-          onChange={(e) => setDescricao(e.target.value)}
+          onChange={(e) => {
+            setDescricao(e.target.value);
+            setErro("");
+          }}
           value={descricao}
           ref={descricaoRef}
         />
         <input
           type="number"
           placeholder="Valor"
-          onChange={(e) => setValor(e.target.value)}
+          onChange={(e) => {
+            setValor(e.target.value);
+            setErro("");
+          }}
           value={valor}
         />
         <label htmlFor="Entrada">Entrada</label>
@@ -171,6 +182,7 @@ export default function FormGasto() {
         </p>
       ))}
       {categoriaMaiorGasto && <p>Maior gasto: {categoriaMaiorGasto}</p>}
+      {erro && <p className={styles.erro}>{erro}</p>}
 
       <ul className={styles.lista}>
         {gastosFiltrados.length === 0 ? (
