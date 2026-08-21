@@ -97,6 +97,7 @@ export default function FormGasto() {
         <input
           type="text"
           placeholder="Descrição"
+          className={styles.input}
           onChange={(e) => {
             setDescricao(e.target.value);
             setErro("");
@@ -107,29 +108,39 @@ export default function FormGasto() {
         <input
           type="number"
           placeholder="Valor"
+          className={styles.input}
           onChange={(e) => {
             setValor(e.target.value);
             setErro("");
           }}
           value={valor}
         />
-        <label htmlFor="Entrada">Entrada</label>
-        <input
-          type="radio"
-          name="tipo"
-          value="Entrada"
-          onChange={(e) => setTipo(e.target.value)}
-          checked={tipo === "Entrada"}
-        />
-        <label htmlFor="Saída">Saída</label>
-        <input
-          type="radio"
-          name="tipo"
-          value="Saída"
-          onChange={(e) => setTipo(e.target.value)}
-          checked={tipo === "Saída"}
-        />
+        <div className={styles.grupoRadio}>
+          <label htmlFor="radioEntrada">
+            <input
+              id="radioEntrada"
+              type="radio"
+              name="tipo"
+              value="Entrada"
+              onChange={(e) => setTipo(e.target.value)}
+              checked={tipo === "Entrada"}
+            />
+            Entrada
+          </label>
+          <label htmlFor="radioSaida">
+            <input
+              id="radioSaida"
+              type="radio"
+              name="tipo"
+              value="Saída"
+              onChange={(e) => setTipo(e.target.value)}
+              checked={tipo === "Saída"}
+            />
+            Saída
+          </label>
+        </div>
         <select
+          className={styles.select}
           onChange={(e) => setCategoria(e.target.value)}
           value={categoria}
         >
@@ -139,49 +150,64 @@ export default function FormGasto() {
           <option value="Salário">Salário</option>
           <option value="Outros">Outros</option>
         </select>
-        <button type="submit">+ Adicionar</button>
+        <button type="submit" className={styles.botaoAdicionar}>
+          + Adicionar
+        </button>
       </form>
-      <select
-        onChange={(e) => setFiltroTipo(e.target.value)}
-        value={filtroTipo}
-      >
-        <option value="Todos">Todos</option>
-        <option value="Entrada">Entrada</option>
-        <option value="Saída">Saída</option>
-      </select>
-      <select
-        onChange={(e) => setFiltroCategoria(e.target.value)}
-        value={filtroCategoria}
-      >
-        <option value="Todos">Todos</option>
-        <option value="Alimentação">Alimentação</option>
-        <option value="Transporte">Transporte</option>
-        <option value="Lazer">Lazer</option>
-        <option value="Salário">Salário</option>
-        <option value="Outros">Outros</option>
-      </select>
-      <select
-        onChange={(e) => setOrdenarPor(e.target.value)}
-        value={ordenarPor}
-      >
-        <option value="Data">Data</option>
-        <option value="Valor">Valor</option>
-      </select>
-      <input
-        type="text"
-        placeholder="Pesquisar"
-        onChange={(e) => setPesquisa(e.target.value)}
-        value={pesquisa}
-      />
-      <button onClick={limparDados}>Limpar dados</button>
-      <p>Total: {gastos.length}</p>
-      <p>Saldo: {saldo}</p>
-      {Object.keys(totalPorCategoria).map((cat) => (
-        <p key={cat}>
-          {cat}: {totalPorCategoria[cat]}
-        </p>
-      ))}
-      {categoriaMaiorGasto && <p>Maior gasto: {categoriaMaiorGasto}</p>}
+
+      <div className={styles.filtros}>
+        <select
+          className={styles.select}
+          onChange={(e) => setFiltroTipo(e.target.value)}
+          value={filtroTipo}
+        >
+          <option value="Todos">Todos</option>
+          <option value="Entrada">Entrada</option>
+          <option value="Saída">Saída</option>
+        </select>
+        <select
+          className={styles.select}
+          onChange={(e) => setFiltroCategoria(e.target.value)}
+          value={filtroCategoria}
+        >
+          <option value="Todos">Todos</option>
+          <option value="Alimentação">Alimentação</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Salário">Salário</option>
+          <option value="Outros">Outros</option>
+        </select>
+        <select
+          className={styles.select}
+          onChange={(e) => setOrdenarPor(e.target.value)}
+          value={ordenarPor}
+        >
+          <option value="Data">Data</option>
+          <option value="Valor">Valor</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          className={styles.input}
+          onChange={(e) => setPesquisa(e.target.value)}
+          value={pesquisa}
+        />
+        <button onClick={limparDados} className={styles.botaoLimpar}>
+          Limpar dados
+        </button>
+      </div>
+
+      <div className={styles.resumo}>
+        <p>Total: {gastos.length}</p>
+        <p>Saldo: {saldo}</p>
+        {Object.keys(totalPorCategoria).map((cat) => (
+          <p key={cat}>
+            {cat}: {totalPorCategoria[cat]}
+          </p>
+        ))}
+        {categoriaMaiorGasto && <p>Maior gasto: {categoriaMaiorGasto}</p>}
+      </div>
+
       {erro && <p className={styles.erro}>{erro}</p>}
 
       <ul className={styles.lista}>

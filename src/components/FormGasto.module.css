@@ -1,16 +1,119 @@
 .FormGasto {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 24px;
-    font-family: 'Courier New', Courier, monospace;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
 }
 
+/* Formulário principal */
 .formulario {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
 }
 
+.input,
+.select {
+  flex: 1;
+  min-width: 120px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  background-color: #fff;
+  color: #222;
+  transition: border-color 0.15s ease, background-color 0.2s ease;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #27ae60;
+}
+
+.grupoRadio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.grupoRadio label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.botaoAdicionar {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #27ae60;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.botaoAdicionar:hover {
+  background-color: #219150;
+  transform: translateY(-1px);
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.botaoLimpar {
+  padding: 8px 12px;
+  border: 1px solid #c0392b;
+  border-radius: 4px;
+  background: transparent;
+  color: #c0392b;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.botaoLimpar:hover {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+/* Resumo */
+.resumo {
+  background-color: #f7f7f7;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.resumo p {
+  margin: 4px 0;
+}
+
+.erro {
+  color: #c0392b;
+  font-size: 13px;
+  margin: -12px 0 16px;
+}
+
+/* Lista */
 .lista {
   list-style: none;
   padding: 0;
@@ -22,6 +125,7 @@
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid #ddd;
+  animation: fadeIn 0.3s ease-in;
 }
 
 .botaoExcluir {
@@ -30,6 +134,12 @@
   color: #c0392b;
   cursor: pointer;
   font-size: 14px;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.botaoExcluir:hover {
+  transform: scale(1.15);
+  color: #ff5c4d;
 }
 
 .entrada {
@@ -38,4 +148,72 @@
 
 .saida {
   color: #c0392b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .FormGasto {
+    padding: 16px;
+    margin: 20px auto;
+  }
+
+  .formulario {
+    flex-direction: column;
+  }
+
+  .filtros {
+    flex-direction: column;
+  }
+
+  .item {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+/* Dark mode automático (segue preferência do sistema) */
+@media (prefers-color-scheme: dark) {
+  .FormGasto {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+
+  .input,
+  .select {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+  }
+
+  .resumo {
+    background-color: #262626;
+  }
+
+  .filtros {
+    border-bottom-color: #444;
+  }
+
+  .item {
+    border-bottom: 1px solid #333;
+  }
+
+  .entrada {
+    color: #2ecc71;
+  }
+
+  .saida,
+  .botaoExcluir {
+    color: #e74c3c;
+  }
 }
