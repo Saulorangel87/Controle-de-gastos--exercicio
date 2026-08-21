@@ -1,11 +1,6 @@
 .App {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--cor-fundo-app);
   transition: background-color 0.2s ease;
-}
-
-@media (prefers-color-scheme: dark) {
-  .App {
-    background-color: #121212;
-  }
+  overflow: auto;
 }

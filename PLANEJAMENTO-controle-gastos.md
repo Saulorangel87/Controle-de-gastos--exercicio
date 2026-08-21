@@ -75,10 +75,10 @@ Criar a primeira versão funcional do controle de gastos.
 
 - [x] Criar a estrutura inicial do projeto com Vite
 - [x] Criar componente principal
-- [ ] Criar formulário para cadastrar um lançamento (descrição + valor)
-- [ ] Exibir lançamentos cadastrados
-- [ ] Excluir lançamento
-- [ ] Criar layout básico com CSS
+- [x] Criar formulário para cadastrar um lançamento (descrição + valor)
+- [x] Exibir lançamentos cadastrados
+- [x] Excluir lançamento
+- [x] Criar layout básico com CSS
 
 ## Conceitos para praticar
 
