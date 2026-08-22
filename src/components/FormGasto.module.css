@@ -95,20 +95,6 @@
   color: #fff;
 }
 
-/* Resumo */
-.resumo {
-  background-color: var(--cor-fundo-resumo);
-  border-radius: 6px;
-  padding: 12px 16px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.resumo p {
-  margin: 4px 0;
-}
-
 .erro {
   color: var(--cor-saida);
   font-size: 13px;

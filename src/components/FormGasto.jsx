@@ -1,5 +1,6 @@
 import styles from "./FormGasto.module.css";
 import { useState, useRef, useEffect } from "react";
+import ResumoSaldo from "./ResumoSaldo";
 
 const CHAVE_STORAGE = "gastos";
 
@@ -241,20 +242,20 @@ export default function FormGasto() {
         </button>
       </div>
 
-      <div className={styles.resumo}>
-        <p>Total: {gastos.length}</p>
-        <p>Saldo: {saldo}</p>
-        <p>Gasto do mês: {gastoDoMes}</p>
-        <p>Gasto da semana: {gastoDaSemana}</p>
-        <p>Total entrada: {totalEntrada}</p>
-        <p>Total saída: {totalSaida}</p>
-        <p>Média por gasto: {mediaGasto}</p>
-        {Object.keys(totalPorCategoria).map((cat) => (
-          <p key={cat}>
-            {cat}: {totalPorCategoria[cat]}
-          </p>
-        ))}
-        {categoriaMaiorGasto && <p>Maior gasto: {categoriaMaiorGasto}</p>}
+      <div>
+        <ResumoSaldo
+          dados={{
+            total: gastos.length,
+            saldo,
+            gastoDoMes,
+            gastoDaSemana,
+            totalEntrada,
+            totalSaida,
+            mediaGasto,
+            totalPorCategoria,
+            categoriaMaiorGasto,
+          }}
+        />
       </div>
 
       {erro && <p className={styles.erro}>{erro}</p>}
