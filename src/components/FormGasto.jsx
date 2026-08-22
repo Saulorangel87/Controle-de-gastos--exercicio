@@ -1,6 +1,7 @@
 import styles from "./FormGasto.module.css";
 import { useState, useRef, useEffect } from "react";
 import ResumoSaldo from "./ResumoSaldo";
+import CardLancamento from "./CardLancamento";
 
 const CHAVE_STORAGE = "gastos";
 
@@ -257,7 +258,6 @@ export default function FormGasto() {
           }}
         />
       </div>
-
       {erro && <p className={styles.erro}>{erro}</p>}
 
       <ul className={styles.lista}>
@@ -265,21 +265,11 @@ export default function FormGasto() {
           <p>Nenhum lançamento ainda.</p>
         ) : (
           gastosFiltrados.map((gasto) => (
-            <li key={gasto.id} className={styles.item}>
-              <span
-                className={
-                  gasto.tipo === "Entrada" ? styles.entrada : styles.saida
-                }
-              >
-                {gasto.descricao} - {gasto.valor} ({gasto.categoria})
-              </span>
-              <button
-                className={styles.botaoExcluir}
-                onClick={() => excluirGasto(gasto.id)}
-              >
-                x
-              </button>
-            </li>
+            <CardLancamento
+              key={gasto.id}
+              gasto={gasto}
+              excluirGasto={excluirGasto}
+            />
           ))
         )}
       </ul>

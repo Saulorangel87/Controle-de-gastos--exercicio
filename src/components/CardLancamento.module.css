@@ -1,0 +1,41 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cor-borda);
+  animation: fadeIn 0.3s ease-in;
+}
+
+.botaoExcluir {
+  border: none;
+  background: transparent;
+  color: var(--cor-saida);
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.15s ease;
+}
+
+.botaoExcluir:hover {
+  transform: scale(1.15);
+  filter: brightness(1.2);
+}
+
+.entrada {
+  color: var(--cor-entrada);
+}
+
+.saida {
+  color: var(--cor-saida);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
