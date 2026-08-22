@@ -100,6 +100,20 @@ export default function FormGasto() {
       return acumulado + Number(gasto.valor);
     }, 0);
 
+  const inicioSemana = new Date(
+    hoje.getFullYear(),
+    hoje.getMonth(),
+    hoje.getDate() - hoje.getDay(),
+  );
+
+  const gastoDaSemana = gastos
+    .filter(
+      (gasto) => new Date(gasto.id) >= inicioSemana && gasto.tipo === "Saída",
+    )
+    .reduce((acumulado, gasto) => {
+      return acumulado + Number(gasto.valor);
+    }, 0);
+
   useEffect(() => {
     localStorage.setItem(CHAVE_STORAGE, JSON.stringify(gastos));
   }, [gastos]);
@@ -214,6 +228,7 @@ export default function FormGasto() {
         <p>Total: {gastos.length}</p>
         <p>Saldo: {saldo}</p>
         <p>Gasto do mês: {gastoDoMes}</p>
+        <p>Gasto da semana: {gastoDaSemana}</p>
         {Object.keys(totalPorCategoria).map((cat) => (
           <p key={cat}>
             {cat}: {totalPorCategoria[cat]}
