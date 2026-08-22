@@ -114,6 +114,23 @@ export default function FormGasto() {
       return acumulado + Number(gasto.valor);
     }, 0);
 
+  const totalEntrada = gastos.reduce((acumulado, gasto) => {
+    if (gasto.tipo === "Entrada") return acumulado + Number(gasto.valor);
+    return acumulado;
+  }, 0);
+
+  const totalSaida = gastos.reduce((acumulado, gasto) => {
+    if (gasto.tipo === "Saída") return acumulado + Number(gasto.valor);
+    return acumulado;
+  }, 0);
+
+  const quantidadedeSaidas = gastos.filter(
+    (gasto) => gasto.tipo === "Saída",
+  ).length;
+
+  const mediaGasto =
+    quantidadedeSaidas > 0 ? totalSaida / quantidadedeSaidas : 0;
+
   useEffect(() => {
     localStorage.setItem(CHAVE_STORAGE, JSON.stringify(gastos));
   }, [gastos]);
@@ -229,6 +246,9 @@ export default function FormGasto() {
         <p>Saldo: {saldo}</p>
         <p>Gasto do mês: {gastoDoMes}</p>
         <p>Gasto da semana: {gastoDaSemana}</p>
+        <p>Total entrada: {totalEntrada}</p>
+        <p>Total saída: {totalSaida}</p>
+        <p>Média por gasto: {mediaGasto}</p>
         {Object.keys(totalPorCategoria).map((cat) => (
           <p key={cat}>
             {cat}: {totalPorCategoria[cat]}
